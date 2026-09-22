@@ -1,4 +1,10 @@
+import useTypewriter from '../../hooks/useTypewriter'
+
 function Terminal() {
+  const line1 = useTypewriter('Bonjour, bienvenue sur mon portfolio.', 30, 0)
+  const line2 = useTypewriter('Tape help pour voir les commandes disponibles.', 30, 1500)
+  const line3 = useTypewriter('Tape exit pour accéder à la version classique du site.', 30, 3300)
+
   return (
     <div className="min-h-screen p-3">
       <div
@@ -18,21 +24,33 @@ function Terminal() {
           className="flex-1 p-6 font-mono text-sm overflow-y-auto"
           style={{ color: 'var(--text)' }}
         >
-          <p>Bonjour, bienvenue sur mon portfolio.</p>
+          <p>{line1.displayedText}</p>
+
           <p>
-            Tape <span style={{ color: 'var(--text-bright)' }}>help</span> pour voir les commandes disponibles.
-          </p>
-          <p>
-            Tape <span style={{ color: 'var(--text-bright)' }}>exit</span> pour accéder à la version classique du site.
+            {line2.isDone ? (
+              <>Tape <strong>help</strong> pour voir les commandes disponibles.</>
+            ) : (
+              line2.displayedText
+            )}
           </p>
 
-          <div className="flex items-center gap-2 mt-4">
-            <span style={{ color: 'var(--text-bright)' }}>visiteur@portfolio:~$</span>
-            <span
-              className="w-2 h-4 blink"
-              style={{ backgroundColor: 'var(--text)' }}
-            />
-          </div>
+          <p>
+            {line3.isDone ? (
+              <>Tape <strong>exit</strong> pour accéder à la version classique du site.</>
+            ) : (
+              line3.displayedText
+            )}
+          </p>
+
+          {line3.isDone && (
+            <div className="flex items-center gap-2 mt-4">
+              <span style={{ color: 'var(--text-bright)' }}>visiteur@portfolio:~$</span>
+              <span
+                className="w-2 h-4 blink"
+                style={{ backgroundColor: 'var(--text)' }}
+              />
+            </div>
+          )}
         </div>
       </div>
     </div>
