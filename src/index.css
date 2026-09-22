@@ -19,3 +19,17 @@ body {
   color: var(--text);
   transition: background 0.3s, color 0.3s;
 }
+
+@keyframes blink-cursor {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.15; }
+}
+
+.blink {
+  animation: blink-cursor 1s ease-in-out infinite;
+}
+
+@keyframes loading-bar {
+  from { width: 0%; }
+  to { width: 100%; }
+}
