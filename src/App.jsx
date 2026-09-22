@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import LoadingScreen from './components/shared/LoadingScreen'
+import Terminal from './components/terminal/Terminal'
 import useFirstVisit from './hooks/useLocalStorage'
 
 function App() {
@@ -9,13 +10,9 @@ function App() {
   return (
     <div className="min-h-screen">
       {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
-      {!loading && (
-        <div className="flex items-center justify-center min-h-screen">
-          <p style={{ color: 'var(--text)' }}>Terminal arrive à l'étape 4</p>
-        </div>
-      )}
+      {!loading && <Terminal />}
     </div>
   )
 }
 
-export default App  
+export default App
