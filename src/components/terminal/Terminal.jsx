@@ -1,9 +1,24 @@
+import { useState } from 'react'
 import useTypewriter from '../../hooks/useTypewriter'
+import TerminalInput from './TerminalInput'
+import TerminalOutput from './TerminalOutput'
+import { executerCommande } from '../../data/commands.config'
 
 function Terminal() {
+  const [history, setHistory] = useState([])
+
   const line1 = useTypewriter('Bonjour, bienvenue sur mon portfolio.', 30, 0)
   const line2 = useTypewriter('Tape help pour voir les commandes disponibles.', 30, 1500)
   const line3 = useTypewriter('Tape exit pour accéder à la version classique du site.', 30, 3300)
+
+  const handleSubmit = (input) => {
+    const result = executerCommande(input)
+    setHistory((prev) => [
+        ...prev,
+        { type: 'command', text: input },
+        { type: 'output', data: result },
+    ])
+  }
 
   return (
     <div className="min-h-screen p-3">
@@ -43,13 +58,10 @@ function Terminal() {
           </p>
 
           {line3.isDone && (
-            <div className="flex items-center gap-2 mt-4">
-              <span style={{ color: 'var(--text-bright)' }}>visiteur@portfolio:~$</span>
-              <span
-                className="w-2 h-4 blink"
-                style={{ backgroundColor: 'var(--text)' }}
-              />
-            </div>
+            <>
+              <TerminalOutput history={history} />
+              <TerminalInput onSubmit={handleSubmit} />
+            </>
           )}
         </div>
       </div>
