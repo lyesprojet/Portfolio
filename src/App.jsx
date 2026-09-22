@@ -1,7 +1,7 @@
 function App() {
   return (
-    <div className="min-h-screen bg-black text-green-400">
-      Portfolio en construction
+    <div className="min-h-screen flex items-center justify-center">
+      <p>Test du thème</p>
     </div>
   )
 }
