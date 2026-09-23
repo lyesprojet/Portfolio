@@ -13,6 +13,11 @@ function Terminal() {
 
   const handleSubmit = (input) => {
     const result = executerCommande(input)
+
+    if (result.type === 'clear') {
+    setHistory([])
+    return
+  }
     setHistory((prev) => [
         ...prev,
         { type: 'command', text: input },

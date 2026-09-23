@@ -13,11 +13,12 @@ export const commandesActives = {
   skills: () => ({ type: 'skills' }),
   experiences: () => ({ type: 'experiences' }),
   contact: () => ({ type: 'contact' }),
+  clear: () => ({ type: 'clear' }),
   exit: () => ({ type: 'text', lines: ['Basculement vers le mode classique (à implémenter étape 9).'] }),
 }
 
 export const commandesInactives = [
-  'ls', 'sudo', 'rm', 'cd', 'pwd', 'cat', 'mkdir', 'clear', 'touch', 'grep', 'man',
+  'ls', 'sudo', 'rm', 'cd', 'pwd', 'cat', 'mkdir', 'touch', 'grep', 'man',
 ]
 
 export function executerCommande(input) {
