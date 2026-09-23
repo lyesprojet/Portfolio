@@ -10,7 +10,7 @@ export const commandesActives = {
     '  exit         - version classique du site',
   ]}),
   projets: () => ({ type: 'projects' }),
-  skills: () => ({ type: 'text', lines: ['Section compétences à venir.'] }),
+  skills: () => ({ type: 'skills' }),
   experiences: () => ({ type: 'text', lines: ['Section expériences à venir.'] }),
   contact: () => ({ type: 'text', lines: ['Section contact à venir.'] }),
   exit: () => ({ type: 'text', lines: ['Basculement vers le mode classique (à implémenter étape 9).'] }),
