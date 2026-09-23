@@ -9,7 +9,7 @@ export const commandesActives = {
     '  contact      - me contacter',
     '  exit         - version classique du site',
   ]}),
-  projets: () => ({ type: 'text', lines: ['Section projets à venir.'] }),
+  projets: () => ({ type: 'projects' }),
   skills: () => ({ type: 'text', lines: ['Section compétences à venir.'] }),
   experiences: () => ({ type: 'text', lines: ['Section expériences à venir.'] }),
   contact: () => ({ type: 'text', lines: ['Section contact à venir.'] }),

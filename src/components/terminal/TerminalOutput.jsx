@@ -1,4 +1,5 @@
 import IdentityCard from './IdentityCard'
+import ProjectsList from './ProjectsList'
 
 function TerminalOutput({ history }) {
   return (
@@ -13,9 +14,8 @@ function TerminalOutput({ history }) {
           )}
           {entry.type === 'output' && entry.data.type === 'text' &&
             entry.data.lines.map((line, j) => <p key={j}>{line}</p>)}
-          {entry.type === 'output' && entry.data.type === 'identity' && (
-            <IdentityCard />
-          )}
+          {entry.type === 'output' && entry.data.type === 'identity' && <IdentityCard />}
+          {entry.type === 'output' && entry.data.type === 'projects' && <ProjectsList />}
         </div>
       ))}
     </div>
