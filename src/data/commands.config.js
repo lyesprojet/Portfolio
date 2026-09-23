@@ -11,7 +11,7 @@ export const commandesActives = {
   ]}),
   projets: () => ({ type: 'projects' }),
   skills: () => ({ type: 'skills' }),
-  experiences: () => ({ type: 'text', lines: ['Section expériences à venir.'] }),
+  experiences: () => ({ type: 'experiences' }),
   contact: () => ({ type: 'text', lines: ['Section contact à venir.'] }),
   exit: () => ({ type: 'text', lines: ['Basculement vers le mode classique (à implémenter étape 9).'] }),
 }

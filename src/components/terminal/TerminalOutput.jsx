@@ -1,6 +1,7 @@
 import IdentityCard from './IdentityCard'
 import ProjectsList from './ProjectsList'
 import SkillsBlock from './SkillsBlock'
+import ExperienceTimeline from './ExperienceTimeline'
 
 function TerminalOutput({ history }) {
   return (
@@ -18,6 +19,7 @@ function TerminalOutput({ history }) {
           {entry.type === 'output' && entry.data.type === 'identity' && <IdentityCard />}
           {entry.type === 'output' && entry.data.type === 'projects' && <ProjectsList />}
           {entry.type === 'output' && entry.data.type === 'skills' && <SkillsBlock />}
+          {entry.type === 'output' && entry.data.type === 'experiences' && <ExperienceTimeline />}
         </div>
       ))}
     </div>
