@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import TopNav from './TopNav'
 import Hero from './Hero'
+import ProjectsSection from './ProjectsSection'
 
 function GuiApp() {
   const [activeSection, setActiveSection] = useState('accueil')
@@ -14,7 +15,8 @@ function GuiApp() {
       />
 
       {activeSection === 'accueil' && <Hero />}
-      {activeSection !== 'accueil' && (
+      {activeSection === 'projets' && <ProjectsSection />}
+      {activeSection !== 'accueil' && activeSection !== 'projets' && (
         <div className="p-8 font-mono" style={{ color: 'var(--gui-text)' }}>
           Section active : {activeSection}
         </div>
