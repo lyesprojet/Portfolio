@@ -3,6 +3,7 @@ import TopNav from './TopNav'
 import Hero from './Hero'
 import ProjectsSection from './ProjectsSection'
 import ParcoursSection from './ParcoursSection'
+import ContactSection from './ContactSection'
 
 function GuiApp() {
   const [activeSection, setActiveSection] = useState('accueil')
@@ -18,11 +19,7 @@ function GuiApp() {
       {activeSection === 'accueil' && <Hero />}
       {activeSection === 'projets' && <ProjectsSection />}
       {activeSection === 'parcours' && <ParcoursSection />}
-      {activeSection !== 'accueil' && activeSection !== 'projets' && activeSection !== 'parcours' && (
-        <div className="p-8 font-mono" style={{ color: 'var(--gui-text)' }}>
-          Section active : {activeSection}
-        </div>
-      )}
+      {activeSection === 'contact' && <ContactSection />}
     </div>
   )
 }
