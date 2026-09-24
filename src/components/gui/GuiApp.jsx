@@ -1,19 +1,24 @@
 import { useState } from 'react'
 import TopNav from './TopNav'
+import Hero from './Hero'
 
 function GuiApp() {
   const [activeSection, setActiveSection] = useState('accueil')
 
   return (
-    <div className="min-h-screen" style={{ backgroundColor: 'var(--gui-bg)' }}>
+    <div className="min-h-screen" style={{ background: 'var(--gui-bg)' }}>
       <TopNav
         activeSection={activeSection}
         onNavigate={setActiveSection}
         onBackToTerminal={() => console.log('retour terminal, à implémenter étape 9')}
       />
-      <div className="p-8 font-mono" style={{ color: 'var(--gui-text)' }}>
-        Section active : {activeSection}
-      </div>
+
+      {activeSection === 'accueil' && <Hero />}
+      {activeSection !== 'accueil' && (
+        <div className="p-8 font-mono" style={{ color: 'var(--gui-text)' }}>
+          Section active : {activeSection}
+        </div>
+      )}
     </div>
   )
 }
