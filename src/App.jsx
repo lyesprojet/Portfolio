@@ -2,6 +2,7 @@ import { useState } from 'react'
 import LoadingScreen from './components/shared/LoadingScreen'
 import Terminal from './components/terminal/Terminal'
 import useFirstVisit from './hooks/useLocalStorage'
+import GuiApp from './components/gui/GuiApp'
 
 function App() {
   const isFirstVisit = useFirstVisit()
@@ -10,7 +11,7 @@ function App() {
   return (
     <div className="min-h-screen">
       {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
-      {!loading && <Terminal />}
+      {!loading && <GuiApp/>}
     </div>
   )
 }

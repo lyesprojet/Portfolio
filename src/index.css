@@ -1,10 +1,23 @@
 @import "tailwindcss";
 
+@theme {
+  --font-mono: 'Cascadia Code', 'Courier New', monospace;
+  --font-heading: 'Space Grotesk', sans-serif;
+  --font-body: 'Sora', sans-serif;
+}
+
 :root {
   --bg: #0a0a0a;
   --text: #33ff66;
   --text-bright: #8fffb0;
   --border: #1a3d1a;
+
+  --gui-bg: #5a615d;
+  --gui-card-bg: #6c736f;
+  --gui-border: #454b47;
+  --gui-text: #33ff66;
+  --gui-text-accent: #8fffb0;
+  --gui-text-secondary: #d8ded9;
 }
 
 [data-theme="secret"] {
