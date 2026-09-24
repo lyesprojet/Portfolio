@@ -2,7 +2,7 @@ function TopNav({ activeSection, onNavigate, onBackToTerminal }) {
   const sections = [
     { id: 'accueil', label: 'accueil' },
     { id: 'projets', label: 'projets' },
-    { id: 'skills', label: 'skills' },
+    { id: 'parcours', label: 'parcours' },
     { id: 'contact', label: 'contact' },
   ]
 
