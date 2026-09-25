@@ -36,17 +36,17 @@ function App() {
     <div className="min-h-screen">
       {loading && <LoadingScreen onFinish={() => setLoading(false)} />}
 
-      {!loading && !isMobile && mode === 'terminal' && (
+      {!loading && mode === 'terminal' && (
         <Terminal onExit={() => startTransition('gui')} />
       )}
-      {!loading && (isMobile || mode === 'gui') && (
+      {!loading && mode === 'gui' && (
         <GuiApp
           onBackToTerminal={() => startTransition('terminal')}
           isMobile={isMobile}
         />
       )}
 
-      {transitioning && !isMobile && (
+      {transitioning && (
         <MatrixTransition
           direction={pendingMode === 'gui' ? 'down' : 'up'}
           onMidpoint={handleMidpoint}
