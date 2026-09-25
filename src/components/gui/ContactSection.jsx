@@ -29,7 +29,7 @@ function ContactCard({ contact }) {
       style={{ background: 'var(--gui-card-border-grad)', boxShadow: 'var(--gui-glow)' }}
     >
       <div
-        className="relative rounded-2xl p-8 overflow-hidden h-full"
+        className="relative rounded-2xl p-5 md:p-8 overflow-hidden h-full"
         style={{ background: 'var(--gui-card-bg-grad)' }}
       >
         <div
@@ -57,19 +57,19 @@ function ContactCard({ contact }) {
         </div>
 
         <p
-          className="font-mono text-xs mb-4 relative"
+          className="font-mono text-xs mb-3 md:mb-4 relative"
           style={{ color: 'var(--gui-text-accent)' }}
         >
           {contact.label}
         </p>
         <p
-          className="font-heading font-bold text-xl relative break-words"
+          className="font-heading font-bold text-base md:text-xl relative break-words"
           style={{ color: '#f5fff8' }}
         >
           {contact.valeur}
         </p>
         <p
-          className="font-body text-xs mt-5 relative opacity-50"
+          className="font-body text-xs mt-3 md:mt-5 relative opacity-50"
           style={{ color: '#a9cbb0' }}
         >
           {contact.action}
@@ -81,19 +81,19 @@ function ContactCard({ contact }) {
 
 function ContactSection() {
   return (
-    <div className="px-16 py-16 w-full">
-      <div className="max-w-2xl mb-16">
-        <h2 className="font-heading font-bold text-4xl mb-5" style={{ color: '#f5fff8' }}>
+    <div className="px-6 py-10 md:px-16 md:py-16 w-full">
+      <div className="max-w-2xl mb-10 md:mb-16">
+        <h2 className="font-heading font-bold text-2xl md:text-4xl mb-4 md:mb-5" style={{ color: '#f5fff8' }}>
           Discutons de votre <span style={{ color: 'var(--gui-text-accent)' }}>projet</span>
         </h2>
-        <p className="font-body text-base" style={{ color: '#a9cbb0', lineHeight: 1.7 }}>
+        <p className="font-body text-sm md:text-base" style={{ color: '#a9cbb0', lineHeight: 1.7 }}>
           Étudiant en dernière année de BUT Informatique, actuellement à la recherche
           d'une alternance. Que ce soit pour une opportunité, une question technique
           ou simplement échanger, n'hésitez pas à me contacter.
         </p>
       </div>
 
-      <div className="grid grid-cols-3 gap-6 mb-16">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 mb-10 md:mb-16">
         {contactInfo.map((c) => (
           <ContactCard key={c.id} contact={c} />
         ))}
@@ -104,10 +104,10 @@ function ContactSection() {
         style={{ background: 'var(--gui-card-border-grad)', boxShadow: 'var(--gui-glow)' }}
       >
         <div
-          className="rounded-2xl px-10 py-6 flex items-center justify-between"
+          className="rounded-2xl px-6 py-6 md:px-10 flex flex-col md:flex-row md:items-center md:justify-between gap-4"
           style={{ background: 'var(--gui-card-bg-grad)' }}
         >
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
             <span className="en-cours font-mono text-xs font-bold">disponible</span>
             <span className="font-body text-sm" style={{ color: '#a9cbb0' }}>
               pour une alternance à partir de septembre 2027
@@ -116,7 +116,7 @@ function ContactSection() {
           <a
             href="/documents/cv-elias.pdf"
             download
-            className="font-mono text-xs px-4 py-2 rounded-lg"
+            className="font-mono text-xs px-4 py-2 rounded-lg text-center"
             style={{ color: '#0a1c0f', backgroundColor: 'var(--gui-text-accent)' }}
           >
             Télécharger mon CV
