@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { skills } from '../../data/skills'
-import logo from '../../assets/logo.png'
+import logo from '../../assets/logo_3d.png'
 
 const CATEGORY_LABELS = {
   langages: 'Langages',
@@ -41,19 +41,25 @@ function SkillCardDesktop({ categoryKey, techs, isOpen, onClick }) {
           {CATEGORY_LABELS[categoryKey]}
         </p>
 
-        {isOpen && (
-          <div className="flex flex-wrap gap-2">
-            {techs.map((tech) => (
-              <span
-                key={tech}
-                className="font-mono text-xs px-3 py-1 rounded-full"
-                style={{ color: 'var(--gui-text-accent)', border: '1px solid rgba(159,255,196,0.3)' }}
-              >
-                {tech}
-              </span>
-            ))}
-          </div>
-        )}
+        <div
+          className="flex flex-wrap gap-2 transition-opacity duration-200"
+          style={{
+            opacity: isOpen ? 1 : 0,
+            maxHeight: isOpen ? 'none' : '0',
+            overflow: isOpen ? 'visible' : 'hidden',
+            transitionDelay: isOpen ? '300ms' : '0ms',
+          }}
+        >
+          {techs.map((tech) => (
+            <span
+              key={tech}
+              className="font-mono text-xs px-3 py-1 rounded-full"
+              style={{ color: 'var(--gui-text-accent)', border: '1px solid rgba(159,255,196,0.3)' }}
+            >
+              {tech}
+            </span>
+          ))}
+        </div>
       </div>
     </div>
   )
@@ -109,7 +115,7 @@ function Hero() {
   const categories = Object.entries(skills)
 
   return (
-    <div className="relative px-6 py-10 md:px-16 md:py-16 w-full overflow-hidden">
+    <div className="relative px-6 py-10 md:px-16 md:py-16 w-full min-h-screen overflow-x-hidden">
       <img
         src={logo}
         alt=""
