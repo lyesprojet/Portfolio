@@ -25,7 +25,7 @@ function versValeurTemps(dateStr) {
   return annee + mois / 12 + jour / 365
 }
 
-const LIGNE_DUREE = 1400 // ms, durée du tracé de la ligne
+const LIGNE_DUREE = 1400
 
 function ParcoursSection() {
   const [dessine, setDessine] = useState(false)
@@ -57,139 +57,195 @@ function ParcoursSection() {
     ? 5 + ((tAujourdHui - minTemps) / (maxTemps - minTemps)) * 85
     : null
 
+  // Fusionne principaux + imbriqués en une seule liste chronologique pour mobile
+  const timelineMobile = [
+    ...principaux.map((e) => ({ ...e, ordre: versValeurTemps(e.periode.split('-')[0].trim()) })),
+    ...imbriques.map((e) => ({ ...e, ordre: versValeurTemps(e.periode.split('-')[0].trim()) })),
+  ].sort((a, b) => a.ordre - b.ordre)
+
   return (
-    <div className="px-16 py-12 w-full">
-      <h2 className="font-heading font-bold text-3xl mb-10" style={{ color: '#f5fff8' }}>
+    <div className="px-6 py-10 md:px-16 md:py-12 w-full">
+      <h2 className="font-heading font-bold text-2xl md:text-3xl mb-8 md:mb-10" style={{ color: '#f5fff8' }}>
         Parcours
       </h2>
 
-      {/* Zone des épisodes éphémères */}
-      <div className="relative" style={{ minHeight: '140px' }}>
-        {imbriques.map((exp) => {
-          const [debut] = exp.periode.split('-').map((s) => s.trim())
-          const pos = calculerPosition(debut)
-          const delai = (pos / 90) * LIGNE_DUREE + 200
-          return (
-            <div
-              key={exp.id}
-              className="absolute"
-              style={{
-                left: `${pos}%`,
-                bottom: '20px',
-                width: '260px',
-                opacity: dessine ? 1 : 0,
-                transform: dessine ? 'translateY(0)' : 'translateY(8px)',
-                transition: `opacity 0.5s ease-out ${delai}ms, transform 0.5s ease-out ${delai}ms`,
-              }}
-            >
-              <p className="font-mono text-xs mb-1" style={{ color: '#ffb000' }}>
-                {exp.periode}
-                {exp.contexte && <span style={{ opacity: 0.7 }}> · {exp.contexte}</span>}
-              </p>
-              <p className="font-heading font-semibold text-base mb-1" style={{ color: '#f5fff8' }}>
-                {exp.titre}
-              </p>
-              <p className="font-body text-xs" style={{ color: '#a9cbb0' }}>
-                {exp.lieu}
-              </p>
+      {/* Version desktop : timeline horizontale */}
+      <div className="hidden md:block">
+        <div className="relative" style={{ minHeight: '140px' }}>
+          {imbriques.map((exp) => {
+            const [debut] = exp.periode.split('-').map((s) => s.trim())
+            const pos = calculerPosition(debut)
+            const delai = (pos / 90) * LIGNE_DUREE + 200
+            return (
               <div
+                key={exp.id}
                 className="absolute"
-                style={{ left: '4px', top: '100%', width: '1px', height: '20px', backgroundColor: 'rgba(255,176,0,0.5)' }}
-              />
-              <span
-                className="absolute rounded-full"
-                style={{ left: '0px', top: 'calc(100% + 20px)', width: '9px', height: '9px', backgroundColor: '#ffb000', boxShadow: '0 0 10px rgba(255,176,0,0.6)' }}
-              />
-            </div>
-          )
-        })}
-      </div>
+                style={{
+                  left: `${pos}%`,
+                  bottom: '20px',
+                  width: '260px',
+                  opacity: dessine ? 1 : 0,
+                  transform: dessine ? 'translateY(0)' : 'translateY(8px)',
+                  transition: `opacity 0.5s ease-out ${delai}ms, transform 0.5s ease-out ${delai}ms`,
+                }}
+              >
+                <p className="font-mono text-xs mb-1" style={{ color: '#ffb000' }}>
+                  {exp.periode}
+                  {exp.contexte && <span style={{ opacity: 0.7 }}> · {exp.contexte}</span>}
+                </p>
+                <p className="font-heading font-semibold text-base mb-1" style={{ color: '#f5fff8' }}>
+                  {exp.titre}
+                </p>
+                <p className="font-body text-xs" style={{ color: '#a9cbb0' }}>
+                  {exp.lieu}
+                </p>
+                <div
+                  className="absolute"
+                  style={{ left: '4px', top: '100%', width: '1px', height: '20px', backgroundColor: 'rgba(255,176,0,0.5)' }}
+                />
+                <span
+                  className="absolute rounded-full"
+                  style={{ left: '0px', top: 'calc(100% + 20px)', width: '9px', height: '9px', backgroundColor: '#ffb000', boxShadow: '0 0 10px rgba(255,176,0,0.6)' }}
+                />
+              </div>
+            )
+          })}
+        </div>
 
-      {/* Ligne principale, tracé progressif */}
-      <div
-        className="relative"
-        style={{ height: '2px', backgroundColor: 'rgba(159,255,196,0.08)', overflow: 'visible' }}
-      >
         <div
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            height: '2px',
-            width: dessine ? '100%' : '0%',
-            background: 'linear-gradient(90deg, rgba(159,255,196,0.1), rgba(159,255,196,0.6) 10%, rgba(159,255,196,0.6) 90%, rgba(159,255,196,0.1))',
-            transition: `width ${LIGNE_DUREE}ms ease-out`,
-          }}
-        />
-
-        {principaux.map((exp) => {
-          const [debut] = exp.periode.split('-').map((s) => s.trim())
-          const pos = calculerPosition(debut)
-          const delai = (pos / 90) * LIGNE_DUREE
-          return (
-            <span
-              key={exp.id}
-              className="absolute rounded-full"
-              style={{
-                left: `${pos}%`,
-                top: '-6px',
-                width: '14px',
-                height: '14px',
-                backgroundColor: '#9fffc4',
-                boxShadow: '0 0 14px rgba(159,255,196,0.8)',
-                opacity: dessine ? 1 : 0,
-                transform: dessine ? 'scale(1)' : 'scale(0)',
-                transition: `opacity 0.3s ease-out ${delai}ms, transform 0.3s ease-out ${delai}ms`,
-              }}
-            />
-          )
-        })}
-
-        {posAujourdHui !== null && (
-          <span
-            className="absolute rounded-full"
+          className="relative"
+          style={{ height: '2px', backgroundColor: 'rgba(159,255,196,0.08)', overflow: 'visible' }}
+        >
+          <div
             style={{
-              left: `${posAujourdHui}%`,
-              top: '-6px',
-              width: '14px',
-              height: '14px',
-              border: '2px solid #9fffc4',
-              opacity: dessine ? 0.4 : 0,
-              transform: dessine ? 'scale(1)' : 'scale(0)',
-              transition: `opacity 0.3s ease-out ${LIGNE_DUREE}ms, transform 0.3s ease-out ${LIGNE_DUREE}ms`,
+              position: 'absolute', top: 0, left: 0, height: '2px',
+              width: dessine ? '100%' : '0%',
+              background: 'linear-gradient(90deg, rgba(159,255,196,0.1), rgba(159,255,196,0.6) 10%, rgba(159,255,196,0.6) 90%, rgba(159,255,196,0.1))',
+              transition: `width ${LIGNE_DUREE}ms ease-out`,
             }}
           />
-        )}
+
+          {principaux.map((exp) => {
+            const [debut] = exp.periode.split('-').map((s) => s.trim())
+            const pos = calculerPosition(debut)
+            const delai = (pos / 90) * LIGNE_DUREE
+            return (
+              <span
+                key={exp.id}
+                className="absolute rounded-full"
+                style={{
+                  left: `${pos}%`, top: '-6px', width: '14px', height: '14px',
+                  backgroundColor: '#9fffc4', boxShadow: '0 0 14px rgba(159,255,196,0.8)',
+                  opacity: dessine ? 1 : 0,
+                  transform: dessine ? 'scale(1)' : 'scale(0)',
+                  transition: `opacity 0.3s ease-out ${delai}ms, transform 0.3s ease-out ${delai}ms`,
+                }}
+              />
+            )
+          })}
+
+          {posAujourdHui !== null && (
+            <span
+              className="absolute rounded-full"
+              style={{
+                left: `${posAujourdHui}%`, top: '-6px', width: '14px', height: '14px',
+                border: '2px solid #9fffc4',
+                opacity: dessine ? 0.4 : 0,
+                transform: dessine ? 'scale(1)' : 'scale(0)',
+                transition: `opacity 0.3s ease-out ${LIGNE_DUREE}ms, transform 0.3s ease-out ${LIGNE_DUREE}ms`,
+              }}
+            />
+          )}
+        </div>
+
+        <div className="relative mt-6" style={{ height: '0px' }}>
+          {principaux.map((exp) => {
+            const [debut] = exp.periode.split('-').map((s) => s.trim())
+            const pos = calculerPosition(debut)
+            const delai = (pos / 90) * LIGNE_DUREE + 150
+            return (
+              <div
+                key={exp.id}
+                className="absolute"
+                style={{
+                  left: `${pos}%`, top: 0, width: '300px',
+                  opacity: dessine ? 1 : 0,
+                  transform: dessine ? 'translateY(0)' : 'translateY(8px)',
+                  transition: `opacity 0.5s ease-out ${delai}ms, transform 0.5s ease-out ${delai}ms`,
+                }}
+              >
+                <p className="font-mono text-xs mb-2" style={{ color: '#8bb096' }}>
+                  {exp.periode}
+                  {exp.enCours && <span className="en-cours" style={{ marginLeft: '6px' }}>en cours</span>}
+                </p>
+                <p className="font-heading font-bold text-xl mb-2" style={{ color: '#f5fff8', lineHeight: 1.3 }}>
+                  {exp.titre}
+                </p>
+                {exp.lieu && (
+                  <p className="font-body text-sm" style={{ color: '#a9cbb0' }}>
+                    {exp.lieu}
+                  </p>
+                )}
+              </div>
+            )
+          })}
+
+          {posAujourdHui !== null && (
+            <p
+              className="absolute font-mono text-xs opacity-50"
+              style={{
+                left: `${posAujourdHui - 15}%`, top: 0, color: '#8bb096', width: '160px', textAlign: 'right',
+                opacity: dessine ? 0.5 : 0,
+                transition: `opacity 0.5s ease-out ${LIGNE_DUREE + 150}ms`,
+              }}
+            >
+              Aujourd'hui
+            </p>
+          )}
+        </div>
       </div>
 
-      {/* Contenu sous la ligne */}
-      <div className="relative mt-6" style={{ height: '0px' }}>
-        {principaux.map((exp) => {
-          const [debut] = exp.periode.split('-').map((s) => s.trim())
-          const pos = calculerPosition(debut)
-          const delai = (pos / 90) * LIGNE_DUREE + 150
+      {/* Version mobile : timeline verticale */}
+      <div className="md:hidden relative pl-6" style={{ borderLeft: '1px solid rgba(159,255,196,0.15)' }}>
+        {timelineMobile.map((exp, i) => {
+          const estImbrique = exp.type === 'imbrique'
           return (
             <div
               key={exp.id}
-              className="absolute"
+              className="relative mb-8 last:mb-0"
               style={{
-                left: `${pos}%`,
-                top: 0,
-                width: '300px',
                 opacity: dessine ? 1 : 0,
                 transform: dessine ? 'translateY(0)' : 'translateY(8px)',
-                transition: `opacity 0.5s ease-out ${delai}ms, transform 0.5s ease-out ${delai}ms`,
+                transition: `opacity 0.4s ease-out ${i * 120}ms, transform 0.4s ease-out ${i * 120}ms`,
               }}
             >
-              <p className="font-mono text-xs mb-2" style={{ color: '#8bb096' }}>
-                {exp.periode}
+              <span
+                className="absolute rounded-full"
+                style={{
+                  left: '-29px',
+                  top: '4px',
+                  width: estImbrique ? '9px' : '12px',
+                  height: estImbrique ? '9px' : '12px',
+                  backgroundColor: estImbrique ? '#ffb000' : '#9fffc4',
+                  boxShadow: estImbrique
+                    ? '0 0 10px rgba(255,176,0,0.6)'
+                    : '0 0 12px rgba(159,255,196,0.7)',
+                }}
+              />
+
+              <p className="font-mono text-xs mb-1">
+                <span style={{ color: estImbrique ? '#ffb000' : '#8bb096' }}>{exp.periode}</span>
+                {exp.contexte && <span style={{ color: '#a9cbb0' }}> · {exp.contexte}</span>}
                 {exp.enCours && <span className="en-cours" style={{ marginLeft: '6px' }}>en cours</span>}
               </p>
-              <p className="font-heading font-bold text-xl mb-2" style={{ color: '#f5fff8', lineHeight: 1.3 }}>
+              <p
+                className={`font-heading font-bold ${estImbrique ? 'text-base' : 'text-lg'}`}
+                style={{ color: '#f5fff8', lineHeight: 1.3 }}
+              >
                 {exp.titre}
               </p>
               {exp.lieu && (
-                <p className="font-body text-sm" style={{ color: '#a9cbb0' }}>
+                <p className="font-body text-sm mt-1" style={{ color: '#a9cbb0' }}>
                   {exp.lieu}
                 </p>
               )}
@@ -199,17 +255,17 @@ function ParcoursSection() {
 
         {posAujourdHui !== null && (
           <p
-            className="absolute font-mono text-xs opacity-50"
+            className="font-mono text-xs opacity-50 relative"
             style={{
-              left: `${posAujourdHui - 15}%`,
-              top: 0,
               color: '#8bb096',
-              width: '160px',
-              textAlign: 'right',
               opacity: dessine ? 0.5 : 0,
-              transition: `opacity 0.5s ease-out ${LIGNE_DUREE + 150}ms`,
+              transition: `opacity 0.4s ease-out ${timelineMobile.length * 120}ms`,
             }}
           >
+            <span
+              className="absolute rounded-full"
+              style={{ left: '-29px', top: '4px', width: '10px', height: '10px', border: '2px solid #9fffc4' }}
+            />
             Aujourd'hui
           </p>
         )}
