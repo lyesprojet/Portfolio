@@ -30,7 +30,7 @@ function Lightbox({ images, activeIndex, onClose, onChangeIndex }) {
         src={images[activeIndex]}
         alt=""
         onClick={(e) => e.stopPropagation()}
-        className="max-w-[80vw] max-h-[80vh] rounded-lg"
+        className="max-w-[90vw] max-h-[80vh] rounded-lg"
       />
 
       {images.length > 1 && (
@@ -76,7 +76,7 @@ function ImageGallery({ images }) {
             className="w-full h-full object-cover cursor-zoom-in"
           />
         ) : (
-          <p className="font-mono text-xs opacity-30" style={{ color: 'var(--gui-text-accent)' }}>
+          <p className="font-mono text-xs opacity-30 px-4 text-center" style={{ color: 'var(--gui-text-accent)' }}>
             Aucune image pour l'instant
           </p>
         )}
@@ -141,17 +141,14 @@ function ProjectCard({ project, imageOnLeft }) {
       onClick={() => setExpanded(!expanded)}
     >
       <div
-        className="relative rounded-2xl overflow-hidden flex"
-        style={{
-          background: 'var(--gui-card-bg-grad)',
-          flexDirection: imageOnLeft ? 'row-reverse' : 'row',
-        }}
+        className={`relative rounded-2xl overflow-hidden flex flex-col ${imageOnLeft ? 'md:flex-row-reverse' : 'md:flex-row'}`}
+        style={{ background: 'var(--gui-card-bg-grad)' }}
       >
-        <div className="p-10 flex-1 min-w-0">
+        <div className="p-5 md:p-10 flex-1 min-w-0">
           <p className="font-mono text-xs mb-2" style={{ color: 'var(--gui-text-accent)' }}>
             {project.stack.join(' · ')}
           </p>
-          <h3 className="font-heading font-bold text-3xl mb-3" style={{ color: '#f5fff8' }}>
+          <h3 className="font-heading font-bold text-xl md:text-3xl mb-3" style={{ color: '#f5fff8' }}>
             {project.titre}
           </h3>
           <p className="font-body text-sm max-w-md" style={{ color: '#a9cbb0', lineHeight: 1.7 }}>
@@ -163,7 +160,7 @@ function ProjectCard({ project, imageOnLeft }) {
               <p className="font-body text-sm max-w-lg mb-4" style={{ color: '#a9cbb0', lineHeight: 1.7 }}>
                 {project.detail}
               </p>
-              <div className="flex gap-5">
+              <div className="flex flex-wrap gap-3 md:gap-5">
                 {project.github && (
                   <a
                     href={project.github}
@@ -198,33 +195,38 @@ function ProjectCard({ project, imageOnLeft }) {
         </div>
 
         <div
-          className="relative flex-shrink-0 transition-all duration-300 flex items-center"
-          style={{
-            width: expanded ? '420px' : '256px',
-            backgroundColor: '#0d1f14',
-          }}
+          className={`relative w-full flex-shrink-0 transition-all duration-300 flex items-center ${
+            expanded ? 'h-56 md:h-auto md:w-[420px]' : 'h-40 md:h-auto md:w-64'
+          }`}
+          style={{ backgroundColor: '#0d1f14' }}
         >
           {!expanded ? (
             <>
               <div
                 className="absolute inset-0"
                 style={{
-                  backgroundImage: project.images[0] ? `url(${project.images[0]})` : 'none',
+                  backgroundImage: project.images && project.images[0] ? `url(${project.images[0]})` : 'none',
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
               />
               <div
-                className="absolute inset-0"
+                className="absolute inset-0 hidden md:block"
                 style={{
                   background: imageOnLeft
                     ? 'linear-gradient(270deg, rgba(10,25,15,1) 0%, rgba(10,25,15,0.6) 40%, rgba(10,25,15,0) 100%)'
                     : 'linear-gradient(90deg, rgba(10,25,15,1) 0%, rgba(10,25,15,0.6) 40%, rgba(10,25,15,0) 100%)',
                 }}
               />
+              <div
+                className="absolute inset-0 md:hidden"
+                style={{
+                  background: 'linear-gradient(0deg, rgba(10,25,15,1) 0%, rgba(10,25,15,0.5) 35%, rgba(10,25,15,0) 100%)',
+                }}
+              />
             </>
           ) : (
-            <ImageGallery images={project.images} />
+            <ImageGallery images={project.images || []} />
           )}
         </div>
       </div>
@@ -234,7 +236,7 @@ function ProjectCard({ project, imageOnLeft }) {
 
 function ProjectsSection() {
   return (
-    <div className="px-8 py-10 w-full">
+    <div className="px-6 py-10 md:px-8 md:py-10 w-full">
       <h2 className="font-heading font-bold text-2xl mb-8" style={{ color: '#f5fff8' }}>
         Projets
       </h2>
