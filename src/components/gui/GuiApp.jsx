@@ -1,9 +1,17 @@
 import { useState } from 'react'
+import { AnimatePresence, motion } from 'framer-motion'
 import TopNav from './TopNav'
 import Hero from './Hero'
 import ProjectsSection from './ProjectsSection'
 import ParcoursSection from './ParcoursSection'
 import ContactSection from './ContactSection'
+
+const sectionComponents = {
+  accueil: Hero,
+  projets: ProjectsSection,
+  parcours: ParcoursSection,
+  contact: ContactSection,
+}
 
 function GuiApp({ onBackToTerminal, isMobile }) {
   const [activeSection, setActiveSection] = useState('accueil')
@@ -22,6 +30,8 @@ function GuiApp({ onBackToTerminal, isMobile }) {
     onBackToTerminal()
   }
 
+  const ActiveSection = sectionComponents[activeSection]
+
   return (
     <div className="min-h-screen relative" style={{ background: 'var(--gui-bg)' }}>
       <TopNav
@@ -30,10 +40,17 @@ function GuiApp({ onBackToTerminal, isMobile }) {
         onBackToTerminal={handleTerminalClick}
       />
 
-      {activeSection === 'accueil' && <Hero />}
-      {activeSection === 'projets' && <ProjectsSection />}
-      {activeSection === 'parcours' && <ParcoursSection />}
-      {activeSection === 'contact' && <ContactSection />}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={activeSection}
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -8 }}
+          transition={{ duration: 0.25, ease: 'easeOut' }}
+        >
+          <ActiveSection />
+        </motion.div>
+      </AnimatePresence>
 
       {showMobileWarning && (
         <div
