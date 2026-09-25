@@ -17,6 +17,18 @@ export const commandesActives = {
   exit: () => ({ type: 'exit' }),
 }
 
+export const helpContent = {
+  lines: [
+    'Commandes disponibles :',
+    '  whoami       - qui je suis',
+    '  projets      - mes réalisations',
+    '  skills       - mes compétences',
+    '  experiences  - mon parcours',
+    '  contact      - me contacter',
+    '  exit         - version classique du site',
+  ],
+}
+
 export const commandesInactives = [
   'ls', 'sudo', 'rm', 'cd', 'pwd', 'cat', 'mkdir', 'touch', 'grep', 'man',
 ]
