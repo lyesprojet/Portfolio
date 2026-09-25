@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react'
 import { experiences } from '../../data/experiences'
 
 const MOIS = {
@@ -24,7 +25,16 @@ function versValeurTemps(dateStr) {
   return annee + mois / 12 + jour / 365
 }
 
+const LIGNE_DUREE = 1400 // ms, durée du tracé de la ligne
+
 function ParcoursSection() {
+  const [dessine, setDessine] = useState(false)
+
+  useEffect(() => {
+    const t = setTimeout(() => setDessine(true), 50)
+    return () => clearTimeout(t)
+  }, [])
+
   const principaux = experiences.filter((e) => e.type === 'principal')
   const imbriques = experiences.filter((e) => e.type === 'imbrique')
 
@@ -53,16 +63,24 @@ function ParcoursSection() {
         Parcours
       </h2>
 
-      {/* Zone des épisodes éphémères, hauteur qui s'adapte au contenu */}
+      {/* Zone des épisodes éphémères */}
       <div className="relative" style={{ minHeight: '140px' }}>
         {imbriques.map((exp) => {
           const [debut] = exp.periode.split('-').map((s) => s.trim())
           const pos = calculerPosition(debut)
+          const delai = (pos / 90) * LIGNE_DUREE + 200
           return (
             <div
               key={exp.id}
               className="absolute"
-              style={{ left: `${pos}%`, bottom: '20px', width: '260px' }}
+              style={{
+                left: `${pos}%`,
+                bottom: '20px',
+                width: '260px',
+                opacity: dessine ? 1 : 0,
+                transform: dessine ? 'translateY(0)' : 'translateY(8px)',
+                transition: `opacity 0.5s ease-out ${delai}ms, transform 0.5s ease-out ${delai}ms`,
+              }}
             >
               <p className="font-mono text-xs mb-1" style={{ color: '#ffb000' }}>
                 {exp.periode}
@@ -87,22 +105,42 @@ function ParcoursSection() {
         })}
       </div>
 
-      {/* Ligne principale */}
+      {/* Ligne principale, tracé progressif */}
       <div
         className="relative"
-        style={{
-          height: '2px',
-          background: 'linear-gradient(90deg, rgba(159,255,196,0.1), rgba(159,255,196,0.6) 10%, rgba(159,255,196,0.6) 90%, rgba(159,255,196,0.1))',
-        }}
+        style={{ height: '2px', backgroundColor: 'rgba(159,255,196,0.08)', overflow: 'visible' }}
       >
+        <div
+          style={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            height: '2px',
+            width: dessine ? '100%' : '0%',
+            background: 'linear-gradient(90deg, rgba(159,255,196,0.1), rgba(159,255,196,0.6) 10%, rgba(159,255,196,0.6) 90%, rgba(159,255,196,0.1))',
+            transition: `width ${LIGNE_DUREE}ms ease-out`,
+          }}
+        />
+
         {principaux.map((exp) => {
           const [debut] = exp.periode.split('-').map((s) => s.trim())
           const pos = calculerPosition(debut)
+          const delai = (pos / 90) * LIGNE_DUREE
           return (
             <span
               key={exp.id}
               className="absolute rounded-full"
-              style={{ left: `${pos}%`, top: '-6px', width: '14px', height: '14px', backgroundColor: '#9fffc4', boxShadow: '0 0 14px rgba(159,255,196,0.8)' }}
+              style={{
+                left: `${pos}%`,
+                top: '-6px',
+                width: '14px',
+                height: '14px',
+                backgroundColor: '#9fffc4',
+                boxShadow: '0 0 14px rgba(159,255,196,0.8)',
+                opacity: dessine ? 1 : 0,
+                transform: dessine ? 'scale(1)' : 'scale(0)',
+                transition: `opacity 0.3s ease-out ${delai}ms, transform 0.3s ease-out ${delai}ms`,
+              }}
             />
           )
         })}
@@ -110,21 +148,38 @@ function ParcoursSection() {
         {posAujourdHui !== null && (
           <span
             className="absolute rounded-full"
-            style={{ left: `${posAujourdHui}%`, top: '-6px', width: '14px', height: '14px', border: '2px solid #9fffc4', opacity: 0.4 }}
+            style={{
+              left: `${posAujourdHui}%`,
+              top: '-6px',
+              width: '14px',
+              height: '14px',
+              border: '2px solid #9fffc4',
+              opacity: dessine ? 0.4 : 0,
+              transform: dessine ? 'scale(1)' : 'scale(0)',
+              transition: `opacity 0.3s ease-out ${LIGNE_DUREE}ms, transform 0.3s ease-out ${LIGNE_DUREE}ms`,
+            }}
           />
         )}
       </div>
 
-      {/* Contenu sous la ligne, flux normal, hauteur naturelle */}
+      {/* Contenu sous la ligne */}
       <div className="relative mt-6" style={{ height: '0px' }}>
         {principaux.map((exp) => {
           const [debut] = exp.periode.split('-').map((s) => s.trim())
           const pos = calculerPosition(debut)
+          const delai = (pos / 90) * LIGNE_DUREE + 150
           return (
             <div
               key={exp.id}
               className="absolute"
-              style={{ left: `${pos}%`, top: 0, width: '300px' }}
+              style={{
+                left: `${pos}%`,
+                top: 0,
+                width: '300px',
+                opacity: dessine ? 1 : 0,
+                transform: dessine ? 'translateY(0)' : 'translateY(8px)',
+                transition: `opacity 0.5s ease-out ${delai}ms, transform 0.5s ease-out ${delai}ms`,
+              }}
             >
               <p className="font-mono text-xs mb-2" style={{ color: '#8bb096' }}>
                 {exp.periode}
@@ -145,7 +200,15 @@ function ParcoursSection() {
         {posAujourdHui !== null && (
           <p
             className="absolute font-mono text-xs opacity-50"
-            style={{ left: `${posAujourdHui - 15}%`, top: 0, color: '#8bb096', width: '160px', textAlign: 'right' }}
+            style={{
+              left: `${posAujourdHui - 15}%`,
+              top: 0,
+              color: '#8bb096',
+              width: '160px',
+              textAlign: 'right',
+              opacity: dessine ? 0.5 : 0,
+              transition: `opacity 0.5s ease-out ${LIGNE_DUREE + 150}ms`,
+            }}
           >
             Aujourd'hui
           </p>

@@ -1,3 +1,5 @@
+import terminalBtn from '../../assets/btn-terminal.png'
+
 function TopNav({ activeSection, onNavigate, onBackToTerminal }) {
   const sections = [
     { id: 'accueil', label: 'accueil' },
@@ -8,8 +10,8 @@ function TopNav({ activeSection, onNavigate, onBackToTerminal }) {
 
   return (
     <div
-      className="w-full flex items-center justify-between px-8 py-4 border-b"
-      style={{ borderColor: 'var(--gui-topbar-border)' }}
+      className="w-full flex items-center justify-between px-8 border-b"
+      style={{ borderColor: 'var(--gui-topbar-border)', height: '72px' }}
     >
       <p
         className="text-xl font-heading font-bold"
@@ -48,14 +50,9 @@ function TopNav({ activeSection, onNavigate, onBackToTerminal }) {
 
       <button
         onClick={onBackToTerminal}
-        className="text-xs font-mono px-3 py-2 rounded"
-        style={{
-          color: 'var(--text)',
-          border: '2px solid var(--text)',
-          backgroundColor: 'var(--bg)',
-        }}
+        className="transition-transform hover:scale-105 flex items-center"
       >
-        _TERMINAL
+        <img src={terminalBtn} alt="Retour au terminal" style={{ height: '66px' }} />
       </button>
     </div>
   )
