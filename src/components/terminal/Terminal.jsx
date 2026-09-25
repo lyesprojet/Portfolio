@@ -4,7 +4,7 @@ import TerminalInput from './TerminalInput'
 import TerminalOutput from './TerminalOutput'
 import { executerCommande } from '../../data/commands.config'
 
-function Terminal() {
+function Terminal({ onExit }) {
   const [history, setHistory] = useState([])
 
   const line1 = useTypewriter('Bonjour, bienvenue sur mon portfolio.', 30, 0)
@@ -15,13 +15,19 @@ function Terminal() {
     const result = executerCommande(input)
 
     if (result.type === 'clear') {
-    setHistory([])
-    return
-  }
+      setHistory([])
+      return
+    }
+
+    if (result.type === 'exit') {
+      onExit()
+      return
+    }
+
     setHistory((prev) => [
-        ...prev,
-        { type: 'command', text: input },
-        { type: 'output', data: result },
+      ...prev,
+      { type: 'command', text: input },
+      { type: 'output', data: result },
     ])
   }
 

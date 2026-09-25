@@ -14,7 +14,7 @@ export const commandesActives = {
   experiences: () => ({ type: 'experiences' }),
   contact: () => ({ type: 'contact' }),
   clear: () => ({ type: 'clear' }),
-  exit: () => ({ type: 'text', lines: ['Basculement vers le mode classique (à implémenter étape 9).'] }),
+  exit: () => ({ type: 'exit' }),
 }
 
 export const commandesInactives = [

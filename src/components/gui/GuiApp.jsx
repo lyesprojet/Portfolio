@@ -5,7 +5,7 @@ import ProjectsSection from './ProjectsSection'
 import ParcoursSection from './ParcoursSection'
 import ContactSection from './ContactSection'
 
-function GuiApp() {
+function GuiApp({ onBackToTerminal }) {
   const [activeSection, setActiveSection] = useState('accueil')
 
   return (
@@ -13,7 +13,7 @@ function GuiApp() {
       <TopNav
         activeSection={activeSection}
         onNavigate={setActiveSection}
-        onBackToTerminal={() => console.log('retour terminal, à implémenter étape 9')}
+        onBackToTerminal={onBackToTerminal}
       />
 
       {activeSection === 'accueil' && <Hero />}
