@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { AnimatePresence, motion } from 'framer-motion'
 import TopNav from './TopNav'
 import Hero from './Hero'
@@ -16,6 +16,8 @@ const sectionComponents = {
 function GuiApp({ onBackToTerminal, isMobile }) {
   const [activeSection, setActiveSection] = useState('accueil')
   const [showMobileWarning, setShowMobileWarning] = useState(false)
+  const [hint, setHint] = useState({ key: 0, active: false })
+  const hintTimer = useRef(null)
 
   const handleTerminalClick = () => {
     if (isMobile) {
@@ -30,14 +32,31 @@ function GuiApp({ onBackToTerminal, isMobile }) {
     onBackToTerminal()
   }
 
+  // Changement de page : on repart toujours en haut
+  const navigate = (id) => {
+    setActiveSection(id)
+    window.scrollTo({ top: 0 })
+  }
+
+  // Remonte en haut et fait clignoter le bouton terminal de la topbar
+  const highlightTerminal = () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+    setHint((h) => ({ key: h.key + 1, active: true }))
+    clearTimeout(hintTimer.current)
+    hintTimer.current = setTimeout(() => {
+      setHint((h) => ({ ...h, active: false }))
+    }, 3300)
+  }
+
   const ActiveSection = sectionComponents[activeSection]
 
   return (
     <div className="min-h-screen relative" style={{ background: 'var(--gui-bg)' }}>
       <TopNav
         activeSection={activeSection}
-        onNavigate={setActiveSection}
+        onNavigate={navigate}
         onBackToTerminal={handleTerminalClick}
+        hint={hint}
       />
 
       <AnimatePresence mode="wait">
@@ -48,7 +67,7 @@ function GuiApp({ onBackToTerminal, isMobile }) {
           exit={{ opacity: 0, y: -8 }}
           transition={{ duration: 0.25, ease: 'easeOut' }}
         >
-          <ActiveSection />
+          <ActiveSection onNavigate={navigate} onHintTerminal={highlightTerminal} />
         </motion.div>
       </AnimatePresence>
 

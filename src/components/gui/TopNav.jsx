@@ -1,8 +1,9 @@
 import { useState } from 'react'
 import terminalBtn from '../../assets/btn-terminal.png'
 
-function TopNav({ activeSection, onNavigate, onBackToTerminal }) {
+function TopNav({ activeSection, onNavigate, onBackToTerminal, hint = { key: 0, active: false } }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const [lastHintKey, setLastHintKey] = useState(0)
 
   const sections = [
     { id: 'accueil', label: 'accueil' },
@@ -15,6 +16,16 @@ function TopNav({ activeSection, onNavigate, onBackToTerminal }) {
     onNavigate(id)
     setMenuOpen(false)
   }
+
+  // Sur mobile, le bouton terminal est dans le menu : on l'ouvre quand on cherche à le montrer
+  if (hint.key !== lastHintKey) {
+    setLastHintKey(hint.key)
+    if (hint.key > 0 && window.matchMedia('(max-width: 767px)').matches) {
+      setMenuOpen(true)
+    }
+  }
+
+  const blinkClass = hint.active ? 'terminal-hint' : ''
 
   return (
     <>
@@ -60,8 +71,9 @@ function TopNav({ activeSection, onNavigate, onBackToTerminal }) {
 
         <div className="hidden md:flex">
           <button
+            key={`d-${hint.key}`}
             onClick={onBackToTerminal}
-            className="transition-transform hover:scale-105 flex items-center"
+            className={`transition-transform hover:scale-105 flex items-center ${blinkClass}`}
           >
             <img src={terminalBtn} alt="Retour au terminal" style={{ height: '56px' }} />
           </button>
@@ -105,11 +117,12 @@ function TopNav({ activeSection, onNavigate, onBackToTerminal }) {
 
           <div className="mt-auto p-8">
             <button
+              key={`m-${hint.key}`}
               onClick={() => {
                 setMenuOpen(false)
                 onBackToTerminal()
               }}
-              className="flex items-center"
+              className={`flex items-center ${blinkClass}`}
             >
               <img src={terminalBtn} alt="Retour au terminal" style={{ height: '56px' }} />
             </button>

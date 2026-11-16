@@ -12,7 +12,7 @@ function App() {
   const [loading, setLoading] = useState(isFirstVisit)
   const [mode, setMode] = useState(() => {
     if (typeof window !== 'undefined' && window.innerWidth < 1024) return 'gui'
-    return localStorage.getItem('modePrefere') || 'terminal'
+    return localStorage.getItem('modePrefere') || 'gui'
   })
   const [transitioning, setTransitioning] = useState(false)
   const [pendingMode, setPendingMode] = useState(null)

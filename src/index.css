@@ -58,3 +58,12 @@ body {
   animation: pulse-color 1.6s ease-in-out infinite;
   font-weight: 700;
 }
+
+@keyframes terminal-hint {
+  0%, 100% { filter: drop-shadow(0 0 0 rgba(90,255,140,0)); transform: scale(1); }
+  50% { filter: drop-shadow(0 0 18px rgba(90,255,140,1)); transform: scale(1.1); }
+}
+
+.terminal-hint {
+  animation: terminal-hint 0.8s ease-in-out 4;
+}
