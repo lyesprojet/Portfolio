@@ -12,7 +12,7 @@ export const experiences = [
     type: 'principal',
     periode: 'Septembre 2024 - Juin 2027',
     enCours: true,
-    titre: 'BUT Informatique parcours Réalisation d’applications : coneption, développement et validation',
+    titre: 'BUT Informatique parcours Réalisation d’applications : conception, développement et validation',
     lieu: 'IUT de Créteil-Vitry (UPEC)',
   },
   {
