@@ -66,14 +66,14 @@ function ImageGallery({ images }) {
       <div
         className="relative w-full h-full flex items-center justify-center"
         onClick={(e) => e.stopPropagation()}
-        style={{ backgroundColor: '#0d1f14' }}
+        style={{ backgroundColor: '#000000' }}
       >
         {hasImages ? (
           <img
             src={images[current]}
             alt=""
             onClick={() => setLightboxOpen(true)}
-            className="w-full h-full object-cover cursor-zoom-in"
+            className="w-full h-full object-contain cursor-zoom-in"
           />
         ) : (
           <p className="font-mono text-xs opacity-30 px-4 text-center" style={{ color: 'var(--gui-text-accent)' }}>
@@ -148,9 +148,14 @@ function ProjectCard({ project, imageOnLeft }) {
           <p className="font-mono text-xs mb-2" style={{ color: 'var(--gui-text-accent)' }}>
             {project.stack.join(' · ')}
           </p>
-          <h3 className="font-heading font-bold text-xl md:text-3xl mb-3" style={{ color: '#f5fff8' }}>
-            {project.titre}
-          </h3>
+          <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-3">
+            <h3 className="font-heading font-bold text-xl md:text-3xl" style={{ color: '#f5fff8' }}>
+              {project.titre}
+            </h3>
+            {project.enCours && (
+              <span className="en-cours font-mono text-xs">en cours</span>
+            )}
+          </div>
           <p className="font-body text-sm max-w-md" style={{ color: '#a9cbb0', lineHeight: 1.7 }}>
             {project.description}
           </p>

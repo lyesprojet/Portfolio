@@ -11,7 +11,12 @@ function ProjectCard({ project }) {
       onClick={() => setExpanded(!expanded)}
     >
       <div className="p-3">
-        <p className="font-bold" style={{ color: 'var(--text)' }}>{project.titre}</p>
+        <div className="flex flex-wrap items-center gap-x-3">
+          <p className="font-bold" style={{ color: 'var(--text)' }}>{project.titre}</p>
+          {project.enCours && (
+            <span className="en-cours text-xs">en cours</span>
+          )}
+        </div>
         <p className="opacity-70 text-xs mt-1">{project.description}</p>
         <p className="text-xs mt-2" style={{ color: '#ffb000' }}>
           {project.stack.join(' · ')}

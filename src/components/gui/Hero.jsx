@@ -162,7 +162,7 @@ function Hero({ onNavigate, onHintTerminal }) {
   const categories = Object.entries(skills)
 
   // Données lues automatiquement
-  const dernierProjet = projects[projects.length - 1]
+  const projetVedette = projects[0]
   const nbProjets = projects.length
   const formationActuelle = experiences.find((e) => e.enCours)
 
@@ -249,24 +249,29 @@ function Hero({ onNavigate, onHintTerminal }) {
             >
               {nbProjets}
             </p>
-            {dernierProjet && (
+            {projetVedette && (
               <>
-                <h3 className="font-heading font-bold text-xl mb-2" style={{ color: '#f5fff8' }}>
-                  {dernierProjet.titre}
-                </h3>
+                <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mb-2">
+                  <h3 className="font-heading font-bold text-xl" style={{ color: '#f5fff8' }}>
+                    {projetVedette.titre}
+                  </h3>
+                  {projetVedette.enCours && (
+                    <span className="en-cours font-mono text-xs">en cours</span>
+                  )}
+                </div>
                 <p className="font-body text-xs" style={{ color: '#a9cbb0', lineHeight: 1.6 }}>
-                  {dernierProjet.description}
+                  {projetVedette.description}
                 </p>
-                {dernierProjet.images && dernierProjet.images[0] && (
+                {projetVedette.images && projetVedette.images[0] && (
                   <img
-                    src={dernierProjet.images[0]}
+                    src={projetVedette.images[0]}
                     alt=""
                     className="w-full object-cover rounded-[10px] mt-4"
                     style={{ height: '86px', border: '1px solid rgba(159,255,196,0.2)' }}
                   />
                 )}
                 <div className="flex flex-wrap gap-2 mt-3">
-                  {dernierProjet.stack.slice(0, 3).map((tech) => (
+                  {projetVedette.stack.slice(0, 3).map((tech) => (
                     <span
                       key={tech}
                       className="font-mono text-xs px-3 py-1 rounded-full"
@@ -311,7 +316,7 @@ function Hero({ onNavigate, onHintTerminal }) {
               <span className="en-cours font-mono text-xs">disponible</span>
             </p>
             <h3 className="font-heading font-bold text-xl mb-2" style={{ color: '#f5fff8' }}>
-              Alternance dès septembre 2027
+              Stage du 8 mars au 11 juin 2027
             </h3>
             <p className="font-body text-xs" style={{ color: '#a9cbb0', lineHeight: 1.6 }}>
               Email, GitHub, LinkedIn : tous mes moyens de contact sont sur la page Contact.

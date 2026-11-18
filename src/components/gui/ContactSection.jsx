@@ -88,7 +88,7 @@ function ContactSection() {
         </h2>
         <p className="font-body text-sm md:text-base" style={{ color: '#a9cbb0', lineHeight: 1.7 }}>
           Étudiant en dernière année de BUT Informatique, actuellement à la recherche
-          d'une alternance. Que ce soit pour une opportunité, une question technique
+          d'un stage du 8 mars au 11 juin 2027. Que ce soit pour une opportunité, une question technique
           ou simplement échanger, n'hésitez pas à me contacter.
         </p>
       </div>
@@ -110,7 +110,7 @@ function ContactSection() {
           <div className="flex flex-col md:flex-row md:items-center gap-1 md:gap-3">
             <span className="en-cours font-mono text-xs font-bold">disponible</span>
             <span className="font-body text-sm" style={{ color: '#a9cbb0' }}>
-              pour une alternance à partir de septembre 2027
+              pour un stage du 8 mars au 11 juin 2027
             </span>
           </div>
           <a
