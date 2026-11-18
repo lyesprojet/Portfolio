@@ -8,9 +8,9 @@ const CATEGORY_LABELS = {
   langages: 'Langages',
   frontend: 'Frontend',
   backend: 'Backend',
+  python: 'Python et données',
   'bases de données': 'Bases de données',
   outils: 'Outils',
-  méthodologie: 'Méthodologie',
 }
 
 function SkillCardDesktop({ categoryKey, techs, isOpen, onClick }) {
