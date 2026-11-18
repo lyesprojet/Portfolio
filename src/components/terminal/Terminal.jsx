@@ -4,7 +4,19 @@ import TerminalInput from './TerminalInput'
 import TerminalOutput from './TerminalOutput'
 import { executerCommande, helpContent } from '../../data/commands.config'
 
+// Mémorise, pour la durée de la visite (onglet ouvert), que l'intro animée a déjà été jouée.
+const CLE_INTRO = 'introTerminalJouee'
+
+function introDejaVue() {
+  try {
+    return sessionStorage.getItem(CLE_INTRO) === '1'
+  } catch {
+    return false
+  }
+}
+
 function Terminal({ onExit }) {
+  const [skipIntro] = useState(introDejaVue)
   const [history, setHistory] = useState([])
   const [hasUsedHelp, setHasUsedHelp] = useState(false)
   const [panelOpen, setPanelOpen] = useState(false)
@@ -13,6 +25,16 @@ function Terminal({ onExit }) {
   const line1 = useTypewriter('Bonjour, bienvenue sur mon portfolio.', 30, 0)
   const line2 = useTypewriter('Tape help pour voir les commandes disponibles.', 30, 1500)
   const line3 = useTypewriter('Tape exit pour accéder à la version classique du site.', 30, 3300)
+
+  useEffect(() => {
+    if (line3.isDone) {
+      try {
+        sessionStorage.setItem(CLE_INTRO, '1')
+      } catch {
+        // stockage indisponible : l'intro rejouera simplement
+      }
+    }
+  }, [line3.isDone])
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -68,10 +90,10 @@ function Terminal({ onExit }) {
           className="flex-1 p-3 sm:p-6 font-mono text-xs sm:text-sm overflow-y-auto"
           style={{ color: 'var(--text)' }}
         >
-          <p>{line1.displayedText}</p>
+          <p>{skipIntro ? 'Bonjour, bienvenue sur mon portfolio.' : line1.displayedText}</p>
 
           <p>
-            {line2.isDone ? (
+            {skipIntro || line2.isDone ? (
               <>Tape <strong>help</strong> pour voir les commandes disponibles.</>
             ) : (
               line2.displayedText
@@ -79,14 +101,14 @@ function Terminal({ onExit }) {
           </p>
 
           <p>
-            {line3.isDone ? (
+            {skipIntro || line3.isDone ? (
               <>Tape <strong>exit</strong> pour accéder à la version classique du site.</>
             ) : (
               line3.displayedText
             )}
           </p>
 
-          {line3.isDone && (
+          {(skipIntro || line3.isDone) && (
             <>
               <TerminalOutput history={history} />
               <TerminalInput onSubmit={handleSubmit} />
