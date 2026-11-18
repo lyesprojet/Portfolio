@@ -1,24 +1,21 @@
 import { useState, useEffect } from 'react'
 
 function useTypewriter(text, speed = 30, startDelay = 0) {
-  const [displayedText, setDisplayedText] = useState('')
-  const [isDone, setIsDone] = useState(false)
+  // On mémorise le texte auquel correspond la progression : si le texte change,
+  // la progression repart de zéro sans avoir à réinitialiser l'état dans l'effet.
+  const [progress, setProgress] = useState({ text, count: 0 })
 
   useEffect(() => {
-    setDisplayedText('')
-    setIsDone(false)
-
     let index = 0
     let intervalId
 
     const startTimer = setTimeout(() => {
       intervalId = setInterval(() => {
         index++
-        setDisplayedText(text.slice(0, index))
+        setProgress({ text, count: index })
 
         if (index >= text.length) {
           clearInterval(intervalId)
-          setIsDone(true)
         }
       }, speed)
     }, startDelay)
@@ -28,6 +25,10 @@ function useTypewriter(text, speed = 30, startDelay = 0) {
       clearInterval(intervalId)
     }
   }, [text, speed, startDelay])
+
+  const count = progress.text === text ? progress.count : 0
+  const displayedText = text.slice(0, count)
+  const isDone = count >= text.length
 
   return { displayedText, isDone }
 }
