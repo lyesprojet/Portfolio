@@ -63,7 +63,7 @@ function IdentityCard() {
         style={{ borderColor: 'var(--border)' }}
       >
         <span>Document généré automatiquement</span>
-        <span>Validité : jusqu'à ce que tu changes de stack</span>
+        <span>Validité : jusqu'à ce que je changes de stack</span>
       </div>
     </div>
   )

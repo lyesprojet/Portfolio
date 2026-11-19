@@ -9,7 +9,7 @@ export const contactInfo = [
   {
     id: 'linkedin',
     label: 'LINKEDIN',
-    valeur: 'https://www.linkedin.com/in/elias-semiane/',
+    valeur: 'linkedin.com/in/elias-semiane/',
     action: '[cliquer pour ouvrir le profil]',
     lien: 'https://www.linkedin.com/in/elias-semiane/',
   },
