@@ -363,28 +363,10 @@ function Hero({ onNavigate, onHintTerminal }) {
                 onHintTerminal()
               }}
               aria-label="Remonter vers le bouton terminal"
-              className="flex items-center justify-center rounded-full shrink-0 self-start md:self-auto transition-transform duration-200 hover:scale-110"
-              style={{
-                width: '48px',
-                height: '48px',
-                color: 'var(--text)',
-                border: '1.5px solid #3ad96b',
-                backgroundColor: '#04120a',
-                boxShadow: '0 0 12px rgba(90,255,140,0.35)',
-              }}
+              className="btn-remonter shrink-0 self-start md:self-auto"
             >
-              <svg
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              >
-                <path d="M12 19V5" />
-                <path d="M5 12l7-7 7 7" />
+              <svg className="btn-remonter-icone" viewBox="0 0 384 512" aria-hidden="true">
+                <path d="M214.6 41.4c-12.5-12.5-32.8-12.5-45.3 0l-160 160c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0L160 141.2V448c0 17.7 14.3 32 32 32s32-14.3 32-32V141.2L329.4 246.6c12.5 12.5 32.8 12.5 45.3 0s12.5-32.8 0-45.3l-160-160z" />
               </svg>
             </button>
           </div>
